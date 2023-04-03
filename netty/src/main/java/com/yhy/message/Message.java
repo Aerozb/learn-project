@@ -1,4 +1,4 @@
-package com.yhy.demo06.customprotocol.message;
+package com.yhy.message;
 
 import lombok.Data;
 
