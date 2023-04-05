@@ -1,15 +1,10 @@
-package com.yhy.demo06.customprotocol.nosharable;
+package com.yhy.demo07.chat.common;
 
-import com.yhy.message.LoginRequestMessage;
 import com.yhy.message.Message;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.embedded.EmbeddedChannel;
-import io.netty.handler.codec.ByteToMessageCodec;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.codec.MessageToMessageCodec;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
@@ -18,13 +13,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
-/**
- * 不可共享的字节编解码器，必须每次都new，不可当做共享变量
- */
 @Slf4j
-public class MessageCodec_and_test extends ByteToMessageCodec<Message> {
+@ChannelHandler.Sharable
+public class MessageCodec extends MessageToMessageCodec<ByteBuf, Message> {
+
     @Override
-    protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, Message msg, List<Object> outList) throws Exception {
+        ByteBuf out = ctx.alloc().buffer();
         // 1. 4 字节的魔数
         out.writeBytes(new byte[]{1, 2, 3, 4});
         // 2. 1 字节的版本,
@@ -46,6 +41,7 @@ public class MessageCodec_and_test extends ByteToMessageCodec<Message> {
         out.writeInt(bytes.length);
         // 8. 写入内容
         out.writeBytes(bytes);
+        outList.add(out);
     }
 
     @Override
@@ -61,28 +57,8 @@ public class MessageCodec_and_test extends ByteToMessageCodec<Message> {
         in.readBytes(bytes, 0, length);
         ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
         Message message = (Message) ois.readObject();
-        log.info("{}, {}, {}, {}, {}, {}", magicNum, version, serializerType, messageType, sequenceId, length);
-        log.info("{}", message);
+        log.info("{}, {}, {}, {}, {}, {}, {}", Const.getCurrentMethodMessage(this.getClass()), magicNum, version, serializerType, messageType, sequenceId, length);
+        log.info("{} 参数message: {}", Const.getCurrentMethodMessage(this.getClass()), message);
         out.add(message);
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        EmbeddedChannel channel = new EmbeddedChannel(new LoggingHandler(LogLevel.DEBUG),
-                //不加的话下面两次发送，会产生半包现象，这个用来等待数据接收完整了，再往下传
-                new LengthFieldBasedFrameDecoder(1024, 12, 4, 0, 0),
-                new MessageCodec_and_test());
-        LoginRequestMessage message = new LoginRequestMessage("zhangsan", "123456");
-        ByteBuf buf = ByteBufAllocator.DEFAULT.buffer();
-        new MessageCodec_and_test().encode(null, message, buf);
-
-        ByteBuf s1 = buf.slice(0, 100);
-        ByteBuf s2 = buf.slice(100, buf.readableBytes() - 100);
-
-        s1.retain(); // 引用计数 2
-        //分两次发送，会产生半包现象
-        channel.writeInbound(s1); // release 1
-        channel.writeInbound(s2);
-
     }
 }

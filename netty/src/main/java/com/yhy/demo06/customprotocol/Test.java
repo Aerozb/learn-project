@@ -9,7 +9,7 @@ import io.netty.handler.logging.LoggingHandler;
 public class Test {
     public static void main(String[] args) {
         EmbeddedChannel channel = new EmbeddedChannel(new LoggingHandler(LogLevel.DEBUG), new MessageCodec_and_test());
-        LoginRequestMessage message = new LoginRequestMessage("zhangsan", "123456", "张三");
+        LoginRequestMessage message = new LoginRequestMessage("zhangsan", "123456");
         //入栈编码，出栈解码
         channel.writeOutbound(message);
     }
