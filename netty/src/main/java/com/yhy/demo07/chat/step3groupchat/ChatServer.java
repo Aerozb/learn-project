@@ -4,10 +4,15 @@ import com.yhy.demo07.chat.common.Const;
 import com.yhy.demo07.chat.common.ProcotolFrameDecoder;
 import com.yhy.demo07.chat.step3groupchat.Handler.*;
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelDuplexHandler;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,6 +40,20 @@ public class ChatServer {
                                     .addLast(Const.loggingHandler)
                                     //1.A客户端发送消息给B客户端，进来先解码然后打印消息
                                     .addLast(Const.messageCodec)
+                                    .addLast(new IdleStateHandler(5, 0, 0))
+                                    // ChannelDuplexHandler 可以同时作为入站和出站处理器
+                                    .addLast(new ChannelDuplexHandler() {
+                                        // 用来触发特殊事件
+                                        @Override
+                                        public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+                                            IdleStateEvent event = (IdleStateEvent) evt;
+                                            // 触发了读空闲事件
+                                            if (event.state() == IdleState.READER_IDLE) {
+                                                log.info("已经 5s 没有读到数据了");
+                                                ctx.channel().close();
+                                            }
+                                        }
+                                    })
                                     //2.根据传进来的消息判断是否是LoginRequestMessage类型
                                     //是的话判断是否登录成功，成功则当前channel和传进来的用户名相互绑定
                                     .addLast(LOGIN_HANDLER)

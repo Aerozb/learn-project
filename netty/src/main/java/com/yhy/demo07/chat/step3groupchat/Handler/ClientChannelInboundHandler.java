@@ -30,6 +30,10 @@ class ClientChannelInboundHandler extends ChannelInboundHandlerAdapter {
             String username = scanner.nextLine();
             System.out.println("请输入密码:");
             String password = scanner.nextLine();
+            if(EXIT.get()){
+                return;
+            }
+
             // 构造消息对象
             LoginRequestMessage message = new LoginRequestMessage(username, password);
             // 发送消息
@@ -106,5 +110,18 @@ class ClientChannelInboundHandler extends ChannelInboundHandlerAdapter {
             }
             WAIT_FOR_LOGIN.countDown();
         }
+    }
+    // 在连接断开时触发
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        log.debug("连接已经断开，按任意键退出..");
+        EXIT.set(true);
+    }
+
+    // 在出现异常时触发
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        log.debug("连接已经断开，按任意键退出..{}", cause.getMessage());
+        EXIT.set(true);
     }
 }

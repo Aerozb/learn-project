@@ -5,7 +5,7 @@ import io.netty.handler.logging.LoggingHandler;
 
 public class Const {
 
-    public static final LoggingHandler loggingHandler = new LoggingHandler(LogLevel.DEBUG);
+    public static final LoggingHandler loggingHandler = new LoggingHandler(LogLevel.INFO);
 
     public static final MessageCodec messageCodec = new MessageCodec();
 
