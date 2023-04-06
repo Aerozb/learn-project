@@ -16,8 +16,8 @@ public class ChatChannelInboundHandler extends SimpleChannelInboundHandler<ChatR
         Channel channel = SessionFactory.getSession().getChannel(toUsername);
         if (channel == null) {
             ctx.writeAndFlush(new ChatResponseMessage(false, "对方用户不存在或者不在线"));
-            return;
+        } else {
+            channel.writeAndFlush(new ChatResponseMessage(msg.getFrom(), msg.getContent()));
         }
-        channel.writeAndFlush(new ChatResponseMessage(msg.getFrom(), msg.getContent()));
     }
 }
