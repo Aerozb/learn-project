@@ -49,7 +49,7 @@ public class ChatServer {
                                             IdleStateEvent event = (IdleStateEvent) evt;
                                             // 触发了读空闲事件
                                             if (event.state() == IdleState.READER_IDLE) {
-                                                log.info("已经 5s 没有读到数据了");
+//                                                log.info("已经 5s 没有读到数据了");
                                                 ctx.channel().close();
                                             }
                                         }
