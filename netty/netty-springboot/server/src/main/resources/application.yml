@@ -1,0 +1,3 @@
+netty:
+ port: 8080
+ bossThread: 1
