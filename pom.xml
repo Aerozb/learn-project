@@ -11,6 +11,7 @@
     <modules>
         <module>netty</module>
         <module>xxl-job</module>
+        <module>rabbitmq</module>
     </modules>
 
     <properties>
