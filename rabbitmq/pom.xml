@@ -12,6 +12,7 @@
     <artifactId>rabbitmq</artifactId>
     <modules>
         <module>learn-rabbitmq</module>
+        <module>springboot-rabbitmq</module>
     </modules>
 
 </project>
