@@ -1,4 +1,4 @@
-package com.producer.demo01_helloword;
+package com.producer.demo01_hello_word;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

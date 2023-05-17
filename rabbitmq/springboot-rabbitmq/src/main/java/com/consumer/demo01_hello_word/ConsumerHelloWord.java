@@ -1,4 +1,4 @@
-package com.consumer.demo01_helloword;
+package com.consumer.demo01_hello_word;
 
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
