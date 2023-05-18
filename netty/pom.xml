@@ -12,8 +12,8 @@
     <artifactId>netty</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>learn</module>
-        <module>netty-springboot</module>
+        <module>learn-netty</module>
+        <module>springboot-netty</module>
     </modules>
 
     <dependencies>
