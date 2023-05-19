@@ -26,7 +26,7 @@ public class Consumer02 {
         DeliverCallback deliverCallback = (consumerTag, delivery) ->
         {
             String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
-            System.out.println("Consumer01 接收到消息" + message);
+            System.out.println("Consumer02 接收到消息" + message);
         };
         channel.basicConsume(deadQueue, true, deliverCallback, consumerTag -> {
         });
