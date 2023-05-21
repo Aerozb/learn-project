@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 生产者
  */
@@ -30,6 +32,6 @@ public class DelayedQueueProducerController {
                     correlationData.getMessageProperties().setDelay(delayTime);
                     return correlationData;
                 });
-        log.info(" 当 前 时 间 ： {}, 发 送 一 条 延 迟 {} 毫秒的信息给队列 delayed.queue:{}", DateUtil.now(), delayTime, message);
+        log.info(" 当 前 时 间 ： {}, 发 送 一 条 延 迟 {} 秒的信息给队列 delayed.queue:{}", DateUtil.now(), TimeUnit.MILLISECONDS.toSeconds(delayTime), message);
     }
 }
