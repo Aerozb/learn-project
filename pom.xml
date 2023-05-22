@@ -12,6 +12,8 @@
         <module>netty</module>
         <module>xxl-job</module>
         <module>rabbitmq</module>
+        <module>websocket</module>
+        <module>websocket/springboot-websocket</module>
     </modules>
 
     <properties>
