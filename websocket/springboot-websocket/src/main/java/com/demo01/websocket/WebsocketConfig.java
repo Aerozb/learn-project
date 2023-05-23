@@ -1,4 +1,4 @@
-package com.websocket;
+package com.demo01.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -9,17 +9,16 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebsocketConfig implements WebSocketConfigurer {
-    
+
     @Autowired
-    private HttpAuthHandler httpAuthHandler;
+    private WebsocketHandler websocketHandler;
     @Autowired
-    private MyInterceptor myInterceptor;
+    private WebsocketInterceptor websocketInterceptor;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry
-                .addHandler(httpAuthHandler, "myWS")
-                .addInterceptors(myInterceptor)
+        registry.addHandler(websocketHandler, "myWS")
+                .addInterceptors(websocketInterceptor)
                 .setAllowedOrigins("*");
     }
 

@@ -1,4 +1,4 @@
-package com.websocket;
+package com.demo01.websocket;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -8,11 +8,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Map;
+import java.util.Random;
 
 @Slf4j
 @Component
-public class MyInterceptor implements HandshakeInterceptor {
+public class WebsocketInterceptor implements HandshakeInterceptor {
+    private final Random random = SecureRandom.getInstanceStrong();  // SecureRandom is preferred to Random
+
+    public WebsocketInterceptor() throws NoSuchAlgorithmException {
+    }
 
     /**
      * 握手前
@@ -21,7 +28,7 @@ public class MyInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         log.info("握手开始");
         String hostName = request.getRemoteAddress().getHostName();
-        String sessionId = hostName + (int) (Math.random() * 1000);
+        String sessionId = hostName + "-" + random.nextInt(1000);
         if (Strings.isNotBlank(sessionId)) {
             // 放入属性域
             attributes.put("session_id", sessionId);
@@ -37,7 +44,7 @@ public class MyInterceptor implements HandshakeInterceptor {
      */
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-        System.out.println("握手完成");
+        log.info("握手完成");
     }
 
 }

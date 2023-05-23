@@ -1,4 +1,4 @@
-package com.websocket;
+package com.demo01.websocket;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -7,11 +7,12 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Slf4j
 @Component
-public class HttpAuthHandler extends TextWebSocketHandler {
+public class WebsocketHandler extends TextWebSocketHandler {
 
     private static final String SESSION_ID = "session_id";
 
@@ -23,7 +24,7 @@ public class HttpAuthHandler extends TextWebSocketHandler {
         Object sessionId = session.getAttributes().get(SESSION_ID);
         if (sessionId != null) {
             // 用户连接成功，放入在线用户缓存
-            WsSessionManager.add(sessionId.toString(), session);
+            WebsocketSessionManager.add(sessionId.toString(), session);
         } else {
             throw new RuntimeException("用户登录已经失效!");
         }
@@ -49,8 +50,14 @@ public class HttpAuthHandler extends TextWebSocketHandler {
         Object sessionId = session.getAttributes().get(SESSION_ID);
         if (sessionId != null) {
             // 用户退出，移除缓存
-            WsSessionManager.remove(sessionId.toString());
+            WebsocketSessionManager.remove(sessionId.toString());
         }
+    }
+
+    public void sendMessage(String sessionId, String message) throws IOException {
+        log.info("给 {} 发送消息:{}", sessionId, message);
+        TextMessage textMessage = new TextMessage(message);
+        WebsocketSessionManager.get(sessionId).sendMessage(textMessage);
     }
 
 }

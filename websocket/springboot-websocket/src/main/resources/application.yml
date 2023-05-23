@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+spring:
+  redis:
+    password: Cqt@hb4399
+    cluster:
+      nodes: 172.16.252.38:8441
+    # 连接超时时间（毫秒）
+    timeout: 1000
+    jedis:
+      pool:
+        maxActive: 5000
+        maxIdle: 30
+        minIdle: 5
+        max-wait: 2000
