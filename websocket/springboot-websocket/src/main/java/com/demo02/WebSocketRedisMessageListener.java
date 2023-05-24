@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class RedisMessageListener implements MessageListener {
+public class WebSocketRedisMessageListener implements MessageListener {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -26,15 +26,15 @@ public class RedisMessageListener implements MessageListener {
         try {
             // 获取消息
             byte[] messageBody = message.getBody();
-            MessageDto messageDto = Convert.convert(new TypeReference<MessageDto>() {
+            WebSocketMessageDto webSocketMessageDto = Convert.convert(new TypeReference<WebSocketMessageDto>() {
             }, redisTemplate.getValueSerializer().deserialize(messageBody));
 
-            Map<String, WebSocketSession> onlineSessionMap = MessageHandler.CLIENTS;
-            String toUid = messageDto.getToUid();
+            Map<String, WebSocketSession> onlineSessionMap = WebSocketMessageHandler.CLIENTS;
+            String toUid = webSocketMessageDto.getToUid();
             if (onlineSessionMap.containsKey(toUid)) {
 
-                String sendUid = messageDto.getSendUid();
-                String msg = messageDto.getMsg();
+                String sendUid = webSocketMessageDto.getSendUid();
+                String msg = webSocketMessageDto.getMsg();
                 log.info("{} 收到 {} 的消息：{}", sendUid, toUid, msg);
                 onlineSessionMap.get(toUid).sendMessage(new TextMessage("收到" + sendUid + "的消息：" + msg));
             }

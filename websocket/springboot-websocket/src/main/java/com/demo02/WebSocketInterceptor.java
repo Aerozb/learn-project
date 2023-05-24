@@ -14,19 +14,19 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class MyInterceptor implements HandshakeInterceptor {
+public class WebSocketInterceptor implements HandshakeInterceptor {
     /**
      * 握手前
      */
     @Override
-    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        log.info("握手开始");
+    public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+        log.info("uid 握手开始");
         // 获得请求参数
         Map<String, String> paramMap = HttpUtil.decodeParamMap(request.getURI().getQuery(), Charset.defaultCharset());
-        String uid = paramMap.get("uid");
+        String uid = paramMap.get(WebSocketMessageHandler.USER_ID);
         if (CharSequenceUtil.isNotBlank(uid)) {
             // 放入属性域
-            attributes.put("uid", uid);
+            attributes.put(WebSocketMessageHandler.USER_ID, uid);
             log.info("用户{}握手成功！", uid);
             return true;
         }

@@ -10,14 +10,14 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MessageDto implements Serializable {
+public class WebSocketMessageDto implements Serializable {
 
     public static void main(String[] args) {
-        MessageDto messageDto = new MessageDto();
-        messageDto.setToUid("3");
-        messageDto.setSendUid("1");
-        messageDto.setMsg("牛逼");
-        System.out.println(JSON.toJSONString(messageDto));
+        WebSocketMessageDto webSocketMessageDto = new WebSocketMessageDto();
+        webSocketMessageDto.setToUid("3");
+        webSocketMessageDto.setSendUid("1");
+        webSocketMessageDto.setMsg("牛逼");
+        System.out.println(JSON.toJSONString(webSocketMessageDto));
     }
 
     private static final long serialVersionUID = -4291728346293647762L;
