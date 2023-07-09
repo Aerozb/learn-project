@@ -12,6 +12,7 @@
         <module>netty</module>
         <module>xxl-job</module>
         <module>rabbitmq</module>
+        <module>swagger</module>
     </modules>
 
     <properties>
