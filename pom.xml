@@ -14,7 +14,6 @@
         <module>rabbitmq</module>
         <module>swagger</module>
         <module>websocket</module>
-        <module>websocket/springboot-websocket</module>
     </modules>
 
     <properties>
