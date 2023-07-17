@@ -7,3 +7,6 @@ spring:
     username: guest
     password: guest
     virtual-host: /
+    #
+    publisher-confirm-type: correlated
+    publisher-returns: true
