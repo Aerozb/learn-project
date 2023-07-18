@@ -9,4 +9,4 @@ spring:
     virtual-host: /
     #
     publisher-confirm-type: correlated
-    publisher-returns: true
+#    publisher-returns: true

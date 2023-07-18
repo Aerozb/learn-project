@@ -28,6 +28,6 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
 
     @Override
     public void returnedMessage(ReturnedMessage returned) {
-        log.info("{}",returned);
+        log.info("没发送到队列的消息{}",returned);
     }
 }

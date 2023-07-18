@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ConfirmConfig {
+public class QueueConfig {
     public static final String CONFIRM_EXCHANGE_NAME = "confirm.exchange";
     public static final String CONFIRM_QUEUE_NAME = "confirm.queue";
     public static final String ROUTING_KEY = "key1";
