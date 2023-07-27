@@ -15,6 +15,7 @@
         <module>swagger</module>
         <module>websocket</module>
         <module>websocket/springboot-websocket</module>
+        <module>custom_annotation</module>
     </modules>
 
     <properties>
