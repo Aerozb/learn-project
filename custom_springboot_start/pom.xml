@@ -15,6 +15,8 @@
 
     <modules>
         <module>demo</module>
+        <module>test_demo_dependency</module>
+        <module>web-log-springboot-starter</module>
     </modules>
 
     <properties>
