@@ -17,6 +17,7 @@ import java.util.Map;
 public class WebSocketInterceptor implements HandshakeInterceptor {
     /**
      * 握手前
+     * @param attributes 如果该方法通过，可以在WebSocketHandler拿到这里设置的数据，org.springframework.web.socket.WebSocketSession#getAttributes()这个可以拿到这里设置的值
      */
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
