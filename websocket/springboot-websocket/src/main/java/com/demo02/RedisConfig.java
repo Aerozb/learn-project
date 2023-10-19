@@ -49,7 +49,7 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisMessageListenerContainer redisMessageListenerContainer = new RedisMessageListenerContainer();
         redisMessageListenerContainer.setConnectionFactory(factory);
         // 订阅(多个)频道：将消息侦听器添加到（可能正在运行的）容器中。如果容器正在运行，侦听器会尽快开始接收（匹配）消息。
-        //参数1：消息监听器，参数2：消息主题
+        //参数1：消息监听器，参数2：消息频道
         redisMessageListenerContainer.addMessageListener(webSocketRedisMessageListener, new ChannelTopic(WebSocketMessageHandler.CHANNEL_NAME));
         //redisMessageListenerContainer.addMessageListener(webSocketRedisMessageListener2, new ChannelTopic(WebSocketMessageHandler.CHANNEL_NAME2));
         return redisMessageListenerContainer;

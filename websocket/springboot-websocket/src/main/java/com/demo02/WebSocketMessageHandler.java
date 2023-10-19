@@ -34,6 +34,9 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
     @Resource
     private RedisTemplate<String, WebSocketMessageDto> redisTemplate;
 
+    /**
+     * 连接成功后调用
+     */
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         String uid = String.valueOf(session.getAttributes().get(USER_ID));
@@ -44,6 +47,9 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
         log.info("===================================");
     }
 
+    /**
+     * 连接关闭后调用
+     */
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
         String uid = String.valueOf(session.getAttributes().get(USER_ID));
@@ -52,13 +58,16 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
         log.info("当前连接服务器客户端数: {}", CLIENTS.size());
     }
 
+    /**
+     * 处理发送来的消息
+     */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         String payload = message.getPayload();
         log.info("服务端收到消息：{}", payload);
         boolean isValid = JSON.isValidObject(payload);
         if (!isValid) {
-            log.info("服务端收到消息的数据格式不符合要求");
+            log.info("服务端收到消息的数据格式不符合要求，要求是json格式");
             return;
         }
         WebSocketMessageDto webSocketMessageDto = JSONUtil.toBean(payload, WebSocketMessageDto.class);
@@ -73,7 +82,7 @@ public class WebSocketMessageHandler extends TextWebSocketHandler {
             }
         } else {
             log.warn("当前ws服务器内未找到客户端uid {}，推送到redis", toUid);
-            // 发布消息
+            // 向指定频道发布消息
             redisTemplate.convertAndSend(CHANNEL_NAME, webSocketMessageDto);
         }
     }

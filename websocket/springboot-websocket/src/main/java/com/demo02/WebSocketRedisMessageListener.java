@@ -26,8 +26,9 @@ public class WebSocketRedisMessageListener implements MessageListener {
         try {
             // 获取消息
             byte[] messageBody = message.getBody();
-            WebSocketMessageDto webSocketMessageDto = Convert.convert(new TypeReference<WebSocketMessageDto>() {
-            }, redisTemplate.getValueSerializer().deserialize(messageBody));
+            TypeReference<WebSocketMessageDto> reference = new TypeReference<WebSocketMessageDto>() {
+            };
+            WebSocketMessageDto webSocketMessageDto = Convert.convert(reference, redisTemplate.getValueSerializer().deserialize(messageBody));
 
             Map<String, WebSocketSession> onlineSessionMap = WebSocketMessageHandler.CLIENTS;
             String toUid = webSocketMessageDto.getToUid();
@@ -35,7 +36,7 @@ public class WebSocketRedisMessageListener implements MessageListener {
 
                 String sendUid = webSocketMessageDto.getSendUid();
                 String msg = webSocketMessageDto.getMsg();
-                log.info("{} 收到 {} 的消息：{}", sendUid, toUid, msg);
+                log.info("redis监听消息,{} 收到 {} 的消息：{}", sendUid, toUid, msg);
                 onlineSessionMap.get(toUid).sendMessage(new TextMessage("收到" + sendUid + "的消息：" + msg));
             }
         } catch (IOException e) {
