@@ -32,6 +32,7 @@ public class WebSocketRedisMessageListener implements MessageListener {
 
             Map<String, WebSocketSession> onlineSessionMap = WebSocketMessageHandler.CLIENTS;
             String toUid = webSocketMessageDto.getToUid();
+            //当前服务端有此用户id则发送给此用户消息
             if (onlineSessionMap.containsKey(toUid)) {
 
                 String sendUid = webSocketMessageDto.getSendUid();
