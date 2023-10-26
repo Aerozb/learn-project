@@ -10,11 +10,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
     /**
-     * 交换机不管是否收到消息的一个回调方法
-     * CorrelationData
-     * 消息相关数据
-     * ack
-     * 交换机是否收到消息
+     * 生产者发送消息到交换机这一步，不论成功失败，这个回调方法都会被调用，从回调方法可以知道是否发送成功，从而进行下一步处理，比如重新发送
+     * CorrelationData:消息相关数据
+     * ack:交换机是否收到消息
      */
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
@@ -26,6 +24,9 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
         }
     }
 
+    /**
+     * 回退消息：当消息发送给Exchange后，Exchange路由到Queue失败后才执行returnedMessage
+     */
     @Override
     public void returnedMessage(ReturnedMessage returned) {
         log.info("没发送到队列的消息{}",returned);
