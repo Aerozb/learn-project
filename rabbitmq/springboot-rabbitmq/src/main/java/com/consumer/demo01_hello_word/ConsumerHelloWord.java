@@ -17,6 +17,11 @@ import org.springframework.stereotype.Component;
 @RabbitListener(queuesToDeclare = @Queue(value = "hello"))
 public class ConsumerHelloWord {
 
+
+    /**
+     * @RabbitHandler 注解是Spring AMQP提供的一种消费消息的方式。
+     * 通过在消息监听方法上添加@RabbitHandler注解，我们可以根据不同的消息类型来选择不同的处理方法，从而实现消息的多路分发和处理。
+     */
     @RabbitHandler
     public void receive(String message) {
         System.out.println("message = " + message);
