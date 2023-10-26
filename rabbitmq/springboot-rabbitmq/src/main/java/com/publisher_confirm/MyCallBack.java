@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnsCallback {
     /**
      * 生产者发送消息到交换机这一步，不论成功失败，这个回调方法都会被调用，从回调方法可以知道是否发送成功，从而进行下一步处理，比如重新发送
-     * CorrelationData:消息相关数据
-     * ack:交换机是否收到消息
+     * CorrelationData:对象内部只有一个 id 属性，用来表示当前消息的唯一性。
+     * ack:消息投递到broker 的状态，true表示成功。
+     * cause：表示投递失败的原因。
      */
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
