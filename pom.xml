@@ -17,6 +17,7 @@
         <module>websocket/springboot-websocket</module>
         <module>custom_annotation</module>
         <module>custom_springboot_start</module>
+        <module>transaction_springboot</module>
     </modules>
 
     <properties>
