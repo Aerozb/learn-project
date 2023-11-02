@@ -31,7 +31,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     /* 结束 没有带事务注解的方法调带事务注解的方法 */
 
 
-    /* 开始 带事务注解的方法调无事务注解的私有方法:生效 */
+    /* 开始 带事务注解的方法调无事务注解的私有(公有)方法:生效 */
     @Transactional
     public void initUser2(User user) {
         save(user);
@@ -45,7 +45,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         userPointService.save(userPoint);
         int i = 5 / 0;
     }
-    /* 结束 带事务注解的方法调无事务注解的私有方法 */
+    /* 结束 带事务注解的方法调无事务注解的私有(公有)方法 */
 
 
     /* 开始 捕获异常，不抛出:不生效 */
@@ -67,4 +67,19 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         }
     }
     /* 结束 捕获异常，不抛出:不生效 */
+
+
+    /* 开始 不带事务方法调带事务方法:不生效 */
+    public void initUser4(User user) {
+        save(user);
+        initUser4_1(user);
+    }
+
+    @Transactional
+    public void initUser4_1(User user) {
+        user.setId(user.getId()+1);
+        save(user);
+        int i = 5 / 0;
+    }
+    /* 结束 不带事务方法调带事务方法:不生效 */
 }

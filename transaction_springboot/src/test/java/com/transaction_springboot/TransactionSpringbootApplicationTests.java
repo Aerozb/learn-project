@@ -2,6 +2,7 @@ package com.transaction_springboot;
 
 import com.transaction_springboot.entity.User;
 import com.transaction_springboot.service.UserService;
+import com.transaction_springboot.service.UserService2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,8 @@ class TransactionSpringbootApplicationTests {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserService2 userService2;
 
     /**
      * 不生效
@@ -25,7 +28,7 @@ class TransactionSpringbootApplicationTests {
     }
 
     /**
-     * 这个是生效的
+     * 生效
      * 带事务注解的方法调无事务注解的私有方法
      */
     @Test
@@ -50,14 +53,26 @@ class TransactionSpringbootApplicationTests {
 
 	/**
 	 * 不生效
-	 * 捕获异常，不抛出
+	 * 不带事务方法调带事务方法
 	 */
 	@Test
 	void test4() {
 		User user = new User();
-		user.setId(3);
-		user.setName("3");
-		userService.initUser3(user);
+		user.setId(4);
+		user.setName("4");
+		userService.initUser4(user);
+	}
+
+	/**
+	 * 生效
+	 * @Transactional写在类上，公有调用私有
+	 */
+	@Test
+	void test6() {
+		User user = new User();
+		user.setId(6);
+		user.setName("6");
+		userService2.initUser6(user);
 	}
 
 }
