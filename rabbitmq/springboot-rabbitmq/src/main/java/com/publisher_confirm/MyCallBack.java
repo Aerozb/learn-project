@@ -14,7 +14,20 @@ public class MyCallBack implements RabbitTemplate.ConfirmCallback, RabbitTemplat
      * CorrelationData:对象内部只有一个 id 属性，用来表示当前消息的唯一性。
      * ack:消息投递到broker 的状态，true表示成功。
      * cause：表示投递失败的原因。
+     *
+     *
+     *
+     * correlationData 和 deliveryTag 的产生时间是不一样的，因为它们分别用于不同的目的。
+     * correlationData：
+     * 产生时间：correlationData 是由生产者在消息发送时生成的。
+     * 作用：它用于关联生产者发送的消息和消息代理的响应。通常，correlationData 包含一个唯一标识符，用于标识消息。
+     *
+     * deliveryTag：
+     * 产生时间：deliveryTag 是在消息被消息代理（例如 RabbitMQ）投递给消费者时由消息代理生成的。
+     * 作用：它是一个用于标识消息的整数标签。每个投递的消息都会被分配一个唯一的 deliveryTag。在手动确认模式下，消费者可以使用 deliveryTag 来确认或拒绝消息。
+     * 总的来说，这两者的产生时间和作用不同。correlationData 与消息一起发送到消息代理，而 deliveryTag 是在消息被投递给消费者时由消息代理生成的。
      */
+
     @Override
     public void confirm(CorrelationData correlationData, boolean ack, String cause) {
         String id = correlationData != null ? correlationData.getId() : "";
