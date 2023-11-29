@@ -18,6 +18,7 @@
         <module>custom_annotation</module>
         <module>custom_springboot_start</module>
         <module>transaction_springboot</module>
+        <module>charts</module>
     </modules>
 
     <properties>
