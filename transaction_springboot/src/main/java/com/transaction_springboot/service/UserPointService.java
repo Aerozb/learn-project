@@ -10,4 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserPointService extends ServiceImpl<UserPointMapper, UserPoint> {
 
+    public void add() {
+        UserPoint userPoint = new UserPoint();
+        userPoint.setUserId(1);
+        userPoint.setPoint(1);
+       save(userPoint);
+        int i = 5 / 0;
+    }
 }

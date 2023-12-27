@@ -82,4 +82,6 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         int i = 5 / 0;
     }
     /* 结束 不带事务方法调带事务方法:不生效 */
+
+
 }
