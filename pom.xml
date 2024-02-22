@@ -19,6 +19,7 @@
         <module>custom_springboot_start</module>
         <module>transaction_springboot</module>
         <module>charts</module>
+        <module>rocketmq</module>
     </modules>
 
     <properties>
