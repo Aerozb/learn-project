@@ -54,7 +54,6 @@ public class ProducerTxmsgListener implements RocketMQLocalTransactionListener {
     //事务状态回查，查询是否扣减金额
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
-        log.info("checkLocalTransaction");
         //解析message，转成AccountChangeEvent
         String messageString = new String((byte[]) message.getPayload());
         JSONObject jsonObject = JSONObject.parseObject(messageString);
